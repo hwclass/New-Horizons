@@ -1,0 +1,22 @@
+﻿<div class="content">
+	<div class="nav">
+		<div class="addlink"><a ui-sref="/"><p>« anasayfaya dön</p></a></div>
+	</div>
+	<div class="page">
+		<div class="regpage">
+			<p class="pagetitle">link ekle</p><br/>
+			<form class="linkform" ng-controller="AddController" name="frm">
+				<span>link:</span> <input type="text" ng-model="link" required>
+				<span>başlık:</span><input type="text" ng-model="baslik" required>
+				<span>kategoriler:  </span>
+				<div class="boxform">
+					<input type="checkbox" ng-model="teknoloji" ng-required="!bilim"/>
+					#teknoloji
+					<input type="checkbox" ng-model="bilim"  ng-required="!teknoloji"/>
+					#bilim
+				</div>
+				<button ng-click="NewPost()" ng-disabled="frm.$invalid">link ekle</button>
+			</form>
+		</div>
+	</div>
+</div>

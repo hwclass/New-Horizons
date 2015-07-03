@@ -1,0 +1,423 @@
+body {
+	font-family: "Helvetica Neue", sans-serif;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.register {
+	width: 80px;
+	height: 35px;
+	background-color: #000;
+	color: #FFF;
+	font-size: 1em;
+	font-weight: bold;
+	float: left;
+	position: relative;
+	text-decoration: none;
+}
+
+.register p {
+	padding-left: 10px;
+	padding-top: 7px;
+	margin: 0;
+}
+
+.register a {
+	color: #FFF;
+}
+
+.register a:hover, .login a:hover {
+	text-decoration: none;
+}
+
+.logo {
+	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: 250px;
+}
+
+.logo p {
+	font-size: 0.813em;
+	color: #979797;
+	margin: 0;
+}
+
+.logo img {
+	padding-left: 20px;
+}
+
+.login {
+	width: 90px;
+	height: 35px;
+	background-color: #EFEFEF;
+	color: #000;
+	font-size: 1em;
+	font-weight: bold;
+	float: right;
+}
+
+.login p {
+	padding-left: 13px;
+	padding-top: 7px;
+	margin: 0;
+}
+
+.content {
+	max-width: 960px;
+	width: auto;
+	margin:0;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.nav {
+	height:15px;
+	margin-top: 20px;
+	font-size: 0.765em;
+	font-weight: bold;
+}
+
+.addlink {
+	float: left;
+}
+
+.addlink p {
+	margin:0;
+}
+
+.popnew {
+	float: right;
+}
+
+.popnew p {
+	display: inline;
+}
+
+.linklist {
+	margin-top: -12px;
+}
+
+.linklist p {
+	display: inline;
+}
+
+.linklist ul {
+	padding-left: 0px;
+}
+
+.link1 {
+	background-color: #EFEFEF;
+	min-height: 50px;
+	height: auto;
+	list-style: none;
+
+}
+
+.link2 {
+	min-height: 50px;
+	height: auto;
+	list-style: none;
+}
+
+.linktitle{
+	font-size: 0.941em;
+	font-weight: bold;
+	padding-top: 7px;
+}
+
+.upvote {
+	width: 24px;
+	height: 32px;
+	display: inline;
+	float: left;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.upvote-icon {
+	background: url(img/up.png) no-repeat ;
+	width: 20px;
+	height: 15px;
+	float: left;
+	margin-bottom: -8px;
+	background-position: center;
+}
+
+.upvote-icon:hover {
+	cursor: pointer;
+}
+
+.upvote p {
+	font-size: 0.765em;
+	font-weight: normal;
+	float: left;
+}
+
+.linktitle p.website {
+	font-weight: normal;
+}
+
+.linkinfo {
+	font-size: 0.765em;
+	margin-left: 17px;
+	display: initial;
+}
+
+.linker, .comment {
+	font-weight: bold;
+}
+
+.page {
+	margin-top: 2px;
+	background-color: #EFEFEF;
+	max-width: 960px;
+	width: auto;
+	padding-bottom: 80px;
+}
+
+.regpage{
+	margin-left: auto;
+	margin-right: auto;
+	width: 500px;
+	padding-top: 10px;
+	padding-bottom: 30px;
+}
+
+p.desc {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p.pagetitle {
+	font-size:1.471em;
+	margin: 0;
+	font-weight: bold;
+	text-align: center;
+}
+
+p.desc {
+	font-size:0.765em;
+	width: 500px;
+	text-align: center;
+}
+
+p.inputname, p.inputname2, p.inputname3, p.inputname4, p.inputname5 {
+	display: inline;
+	font-size: 1.176em;
+	font-weight: bold;
+}
+p.inputname2 {
+	padding-right: 13px;
+}
+
+p.inputname3 {
+	padding-right: 23px;
+}
+
+p.inputname4 {
+	padding-right: 92px;
+}
+
+p.inputname5 {
+	padding-right: 82px;
+}
+
+.regform {
+	text-align: center;
+}
+
+input[type="text"] {
+	border-color: #000;
+	border-width: 4px; 
+	width: 250px;
+}
+
+button{
+	background-color: #000;
+	color: #FFF;
+	border: none;
+	font-size: 1.176em;
+	margin-left: 245px;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+button:disabled{
+	background-color: #e1e1e1;
+	cursor: not-allowed;
+}
+
+p.note {
+	font-size:0.765em;
+	color: #979797;
+	margin-left: 143px;
+	margin-top: -20px;
+}
+
+p.code {
+	font-size:0.765em;
+	color: #979797;
+	margin-left: 90px;
+	margin-top: -15px;
+	text-decoration: underline;
+}
+
+
+.logform, .inform {
+	text-align: center;
+}
+
+.logform input[type="text"], .inform input[type="text"], .logform input[type="password"], .inform input[type="password"] {
+	border-color: #000;
+	border-width: 4px; 
+	width: 250px;
+	font-weight: bolder;
+	height: 20px;
+	font-size: 1em;
+	margin-bottom: 10px;
+}
+
+.logform button {
+	margin-left: 240px;
+
+}
+
+.inform button {
+	float:right;
+	margin-right: 50px;
+}
+
+.linkpage {
+	margin-top: 2px;
+	background-color: #EFEFEF;
+	max-width: 960px;
+	width: auto;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-bottom: 25px;
+}
+
+.linkpage p {
+	display: inline;
+}
+
+.linkpage .link1 .upvote {
+	margin-right: -5px !important;
+	margin-top:3px;
+}
+
+textarea#taid {
+	border-color: #e1e1e1;
+	border-width: 4px; 
+	margin-left: 45px;
+}
+
+textarea#taid:focus {
+	border-color: #000;
+}
+
+.linkpage button{
+	margin-left: 395px;
+	display: block;
+}
+
+.yorumyazan {
+	font-size: 0.765em;
+}
+
+.yorum .upvote {
+	font-size:0.875em;
+	margin-right: 5px;
+	margin-top:3px;
+}
+
+.yorum .upvote-ikon {
+	background: url(img/up-small.png) no-repeat ;
+	background-position: center;
+	width: 13px;
+	height: 13px;
+	float: left;
+	margin-left: 6px;
+}
+
+.yorum .upvote-ikon:hover {
+	cursor: pointer;
+}
+
+.yorum {
+	padding-bottom: 10px;
+}
+
+.yorum .upvote span {
+	padding-top:5px;
+	display: inline;
+	float: left;
+	font-size:0.813em;
+	padding-left: 2px;
+}
+
+.yorum p {
+	font-size: 0.765em;
+	display: block;
+ 	padding-left: 38px;
+	margin-top:3px;
+	padding-right: 10px;
+	margin-bottom: 5px;
+}
+
+.cevapla {
+	font-size: 0.765em;
+	text-decoration: underline;
+	margin-left: 43px;
+}
+
+.linkform {
+	width: 80%;
+	margin-left: 100px;
+}
+
+.linkform input[type="text"]{
+	width: 300px;
+	font-weight: bolder;
+	height: 20px;
+	margin-bottom: 30px;
+	font-size: 1em;
+}
+
+.linkform span {
+	display: block;
+	font-size: 1.176em;
+	font-weight: bold;
+}
+
+.linkform .note {
+	margin-left: 90px;
+	margin-top: -2px;
+}
+
+.boxform {
+	float: right;
+	margin-top:-22px;
+	margin-right: 125px;
+	font-weight: bolder;
+}
+
+.linkform button {
+	float: left;
+	margin-left: 230px !important;
+	margin-top: 20px;
+}
+
+.secili {
+	color: #979797;
+}

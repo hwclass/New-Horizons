@@ -1,0 +1,18 @@
+<div class="content" ng-controller="ListController">
+    <div class="nav">
+        <div class="popnew"><a href="" ng-click="predicate = '-sonPuan'"><p ng-class="predicate == '-sonPuan' ? 'secili' : ''">popüler</p></a> | <a href="" ng-click="predicate = '-tarih'" ng-class="predicate == '-tarih' ? 'secili' : ''"><p>en yeni</p></a></div>
+    </div>
+    <div class="linklist">
+        <ul>
+            <li ng-class="$index % 2 == 0 ? 'link1' : 'link2'"  ng-repeat="post in posts | orderBy:predicate" ng-init="son24Puan(post)">
+                <div class="linktitle">
+                    <div class="upvote"><i class="upvote-icon" ng-click="puanVer(post.$id, post.puanSayisi)"></i> <p>{{post.puanSayisi}} p</p></div>
+                    {{$index+1}}. <a href="{{post.link}}" target="_blank"><p class="title">{{post.linkad}}</p></a><p class="website"> ({{post.linkkok}})</p>
+                </div>
+                <div class="linkinfo">
+                    <p>ilk keşfeden </p><p class="linker">{{post.kesfeden}} </p><p am-time-ago="post.tarih"></p> | <a href="#/link/{{post.$id}}"><p class="comment">{{yorumsay(post.yorumlar)}} yorum</p></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
