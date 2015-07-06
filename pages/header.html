@@ -1,5 +1,8 @@
 <div class="header" ng-controller="NavController">
     <div class="register"><a ui-sref="kayit" ng-hide="signedIn()"><p>kayıt ol</p></a><a ui-sref="linkekle" ng-show="signedIn()"><p>link ekle</p></a></div>
-    <div class="login"><a ui-sref="giris" ng-hide="signedIn()"><p>giriş yap</p></a><a href="#" ng-click="logout(user)" ng-show="signedIn()"><p>çıkış yap</p></a></div>
+    <div class="sagkisim">
+      <div class="setting" ng-show="signedIn()"><a ui-sref="change"><img src="img/setting.png"/></a></div>
+      <div class="login"><a ui-sref="giris" ng-hide="signedIn()"><p>giriş yap</p></a><a href="#" ng-click="logout(user)" ng-show="signedIn()"><p>çıkış yap</p></a></div>
+    </div>
     <div class="logo"><img src="img/logo.png"/><p>şimdilik sadece #bilim ve #teknoloji ile ilgili</p></div>
 </div>

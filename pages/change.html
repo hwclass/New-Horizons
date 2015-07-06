@@ -1,0 +1,16 @@
+<div class="content">
+	<div class="nav">
+		<div class="addlink"><a ui-sref="/"><p>« anasayfaya dön</p></a></div>
+	</div>
+	<div class="page">
+		<div class="regpage">
+			<p class="pagetitle">şifre değiştir</p><br/>
+			<form class="logform">
+				<p class="inputname">email:       </p><input type="text" ng-model="user.email"><br/>
+        <p class="inputname2">eski şifre:</p><input type="password" ng-model="user.oldpass"><br/>
+				<p class="inputname2">yeni şifre:</p><input type="password" ng-model="user.newpass"><br/>
+				<button ng-click="changePassword(user)">değiştir</button>
+			</form>
+		</div>
+	</div>
+</div>

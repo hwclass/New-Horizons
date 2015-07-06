@@ -54,6 +54,12 @@ a:hover {
 	padding-left: 20px;
 }
 
+.sagkisim{
+	float:right;
+	height: 35px;
+	width: 130px;
+}
+
 .login {
 	width: 90px;
 	height: 35px;
@@ -68,6 +74,20 @@ a:hover {
 	padding-left: 13px;
 	padding-top: 7px;
 	margin: 0;
+}
+
+.setting {
+	width:30px;
+	height: 30px;
+	background-color: #EFEFEF;
+	float: left;
+	padding-top:4px;
+	padding-left: 4px;
+}
+
+.setting img{
+	width:24px;
+	height: 25px;
 }
 
 .content {
@@ -236,7 +256,7 @@ p.inputname5 {
 
 input[type="text"] {
 	border-color: #000;
-	border-width: 4px; 
+	border-width: 4px;
 	width: 250px;
 }
 
@@ -279,7 +299,7 @@ p.code {
 
 .logform input[type="text"], .inform input[type="text"], .logform input[type="password"], .inform input[type="password"] {
 	border-color: #000;
-	border-width: 4px; 
+	border-width: 4px;
 	width: 250px;
 	font-weight: bolder;
 	height: 20px;
@@ -318,7 +338,7 @@ p.code {
 
 textarea#taid {
 	border-color: #e1e1e1;
-	border-width: 4px; 
+	border-width: 4px;
 	margin-left: 45px;
 }
 
@@ -420,4 +440,11 @@ textarea#taid:focus {
 
 .secili {
 	color: #979797;
+}
+
+.toast-success{
+	background-color:#000 !important;
+}
+.toast-error{
+	background-color: #CC3232 !important;
 }

@@ -1,4 +1,4 @@
-var app = angular.module('KesfetApp', ["firebase","ui.router", "angularMoment"]);
+var app = angular.module('KesfetApp', ["firebase","ui.router", "angularMoment", "toaster", "ngAnimate"]);
 
 app.run(function(amMoment) {
     amMoment.changeLocale('tr');
@@ -22,6 +22,16 @@ app.config(function($stateProvider, $urlRouterProvider){
             templateUrl: "pages/login.html",
             controller: "AuthController"
         })
+        .state("unuttum", {
+            url: '/unuttum',
+            templateUrl: "pages/unuttum.html",
+            controller: "AuthController"
+        })
+        .state("change", {
+            url: '/change',
+            templateUrl: "pages/change.html",
+            controller: "AuthController"
+        })
         .state("linkekle", {
             url: '/link-ekle',
             templateUrl: "pages/linkekle.html",
@@ -40,7 +50,7 @@ app.factory("ref", function(){
 
 
 app.controller('ListController',
-    function($scope, ref, $firebaseArray, $firebaseObject, Auth, $location){
+    function($scope, ref, $firebaseArray, $firebaseObject, Auth, $location, toaster){
         $scope.posts = $firebaseArray(ref.child("posts"));
         $scope.puanlar = $firebaseArray(ref.child("puanlar"));
 
@@ -61,6 +71,7 @@ app.controller('ListController',
             for(var i = 0; i<sayi;i++){
                 if(myDate < item.puan[i].tarih && item.puan[i].tarih < suAn){
                     item.sonPuan++;
+                    //item.$save();
                 }
             }
 
@@ -89,11 +100,12 @@ app.controller('ListController',
                         });
 
                     }else{
-                        console.log("Zateen puan vermişsin.");
+                      toaster.pop('error',"Zaten puan vermişsin!");
                     }
                 });
             }else{
                 $location.path('/kayit');
+                toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
             }
 
 
@@ -105,11 +117,13 @@ app.controller('ListController',
 );
 
 app.controller('LinkController',
-    function($scope, ref, $stateParams, $firebaseObject, $firebaseArray, Auth, $location){
+    function($scope, ref, $stateParams, $firebaseObject, $firebaseArray, Auth, $location, toaster){
         var postId = $stateParams.postId;
 
         var post = $firebaseObject(ref.child("posts").child(postId));
         $scope.yorumlar = $firebaseArray(ref.child("yorumlar").child(postId));
+        var puanlar = $firebaseObject(ref.child("puanlar").child(postId));
+        var yorumlar = $firebaseObject(ref.child("yorumlar").child(postId));
 
         $scope.post = post;
 
@@ -132,6 +146,7 @@ app.controller('LinkController',
                 $scope.yorum = "";
             }else{
                 $location.path('/kayit');
+                toaster.pop('error',"Yorum yapmak için giriş yapmalısınız.");
             }
         };
 
@@ -140,20 +155,15 @@ app.controller('LinkController',
                 var yorumPuan = ref.child("yorumlar").child(postId).child(item).child("yorumPuanlar");
                 var yorumPuanObj = $firebaseObject(yorumPuan);
                 var id = currentUser.id;
+                var yorum = $firebaseObject(ref.child("yorumlar").child(postId).child(item));
 
                 yorumPuan.once('value', function (snapshot){
                     if(!snapshot.hasChild(id)){
                         var yeniPuan = $firebaseArray(yorumPuan.child(id));
 
-                        if(!snapshot.hasChild("yorumPuanSayisi")){
-                          yorumPuanObj.$bindTo($scope, "data").then(function() {
-                            $scope.data.yorumPuanSayisi = 1;
-                          });
-                        }else{
-                          yorumPuanObj.$bindTo($scope, "data").then(function() {
+                          yorum.$bindTo($scope, "data").then(function() {
                             $scope.data.yorumPuanSayisi++;
                           });
-                        }
 
                         yeniPuan.$add({
                             "puanSahibi": currentUser.name,
@@ -162,11 +172,12 @@ app.controller('LinkController',
                         });
 
                     }else{
-                        console.log("Zateen puan vermişsin.");
+                      toaster.pop('error',"Zaten puan vermişsin!");
                     }
                 });
             }else{
                 $location.path('/kayit');
+                toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
             }
         };
 
@@ -188,18 +199,38 @@ app.controller('LinkController',
                         $scope.post.puanSayisi++;
                         $scope.post.$save();
                     }else{
-                        console.log("Zateen puan vermişsin.");
+                      toaster.pop('error',"Zaten puan vermişsin!");
                     }
                 });
             }else{
-                $location.path('/kayit');
+              toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
+              $location.path('/kayit');
             }
+        };
+
+        $scope.silGoster = function(){
+          if(currentUser){
+            return currentUser.id == post.kesfedenId || currentUser.id == "simplelogin:43";
+          }else{
+            return false;
+          }
+        }
+
+        $scope.sil = function() {
+            post.$destroy();
+            post.$save();
+            yorumlar.$destroy();
+            yorumlar.$save();
+            puanlar.$destroy();
+            puanlar.$save();
+            toaster.pop('success',"Link başarıyla silindi!");
+            $location.path('/');
         };
     }
 );
 
 app.controller('AddController',
-    function($scope, ref, $location, $firebaseArray, Auth) {
+    function($scope, ref, $location, $firebaseArray, Auth, toaster) {
 
         $scope.posts = $firebaseArray(ref.child("posts"));
 
@@ -233,6 +264,8 @@ app.controller('AddController',
 
                 }
             );
+
+            toaster.pop('success',"Link başarıyla eklendi!");
 
             $location.path('/');
         }
@@ -282,6 +315,10 @@ app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
             return auth.$changePassword({email: user.email, oldPassword: user.oldpass, newPassword: user.newpass});
         },
 
+        resetPass: function(item){
+          return auth.$resetPassword({email: item});
+        },
+
         signedIn: function(){
             return !!Auth.user.provider;
         }
@@ -303,34 +340,84 @@ app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
 
 });
 
-app.controller('AuthController', function($scope, $location, Auth){
+app.controller('AuthController', function($scope, $location, $firebaseArray, Auth, ref, toaster){
+    /*if(Auth.signedIn()){
+      $location.path('/');
+    }*/
+
     $scope.register = function(user){
         Auth.register(user).then(function(){
-            console.log("Register successfully!");
+            toaster.pop('success',"Register successfully!");
             $location.path('/');
-        }, function(err){
-            console.log("Error...");
+        }, function(error){
+            switch (error.code) {
+               case "EMAIL_TAKEN":
+                 toaster.pop('error',"Bu email ile daha önce kayıt olunmuş.");
+                 break;
+               case "INVALID_EMAIL":
+                 toaster.pop('error',"Email adresiniz doğru yazılmamış.");
+                 break;
+               default:
+                 toaster.pop('error',"Error logging user in:", error);
+             }
         });
     };
 
     $scope.login = function(user){
         Auth.login(user)
             .then(function(){
-                console.log("Logged seccessfully!");
+                toaster.pop('success',"Logged successfully!");
                 $location.path('/');
-            }, function(err){
-                console.log("Error...");
+            }, function(error){
+              switch (error.code) {
+                 case "INVALID_EMAIL":
+                   toaster.pop('error',"The specified user account email is invalid.");
+                   break;
+                 case "INVALID_PASSWORD":
+                   toaster.pop('error',"The specified user account password is incorrect.");
+                   break;
+                 case "INVALID_USER":
+                   toaster.pop('error',"The specified user account does not exist.");
+                   break;
+                 default:
+                   toaster.pop('error',"Error logging user in:", error);
+               }
             });
+    };
+
+    $scope.resetPass = function(email){
+      Auth.resetPass(email).then(function(error) {
+        if (error) {
+          console.log("Error sending password reset email:", error);
+        } else {
+          toaster.pop('success',"Password reset email sent successfully");
+          $location.path('/login');
+        }
+      });
+    };
+
+    $scope.changePassword = function(user){
+      Auth.changePassword(user)
+        .then(function(){
+          $scope.user.email = "";
+          $scope.user.oldpass = "";
+          $scope.user.newpass = "";
+
+          toaster.pop('success',"Password changed successfully!");
+        }, function(error){
+          console.log("Error...")
+        });
     }
+
 
 });
 
-app.controller('NavController', function($scope, $location, Auth){
+app.controller('NavController', function($scope, $location, Auth, toaster){
     $scope.signedIn = Auth.signedIn;
 
     $scope.logout= function(){
         Auth.logout();
-        console.log("Logged out!");
+        toaster.pop('success',"Logged out!");
         $location.path('/');
     }
 });
