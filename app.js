@@ -47,14 +47,6 @@ app.controller('ListController',
         $scope.predicate = "-sonPuan";
         var currentUser = Auth.user.profile;
 
-        $scope.yorumsay = function(item){
-            var sayi = 0;
-
-            for(i in item){sayi++}
-
-            return sayi;
-        };
-
         $scope.son24Puan = function(item){
             item.sonPuan = 0;
             var suAn = Firebase.ServerValue.TIMESTAMP;
@@ -92,8 +84,9 @@ app.controller('ListController',
 
                         });
 
-                        post.puanSayisi++;
-                        post.$save();
+                        post.$bindTo($scope, "data").then(function() {
+                          $scope.data.puanSayisi++;
+                        });
 
                     }else{
                         console.log("Zateen puan vermişsin.");
@@ -116,35 +109,67 @@ app.controller('LinkController',
         var postId = $stateParams.postId;
 
         var post = $firebaseObject(ref.child("posts").child(postId));
-        var yorumlar = $firebaseArray(ref.child("posts").child(postId).child("yorumlar"));
-
+        $scope.yorumlar = $firebaseArray(ref.child("yorumlar").child(postId));
 
         $scope.post = post;
 
         var currentUser = Auth.user.profile;
 
-        $scope.yorumsay = function(item){
-            var sayi = 0;
-
-            for(i in item){sayi++}
-
-            return sayi;
-        };
-
         $scope.yorumYap = function(){
             if(currentUser){
-                yorumlar.$add({
+                $scope.yorumlar.$add({
                     "yorumSahibi": currentUser.name,
                     "yorumSahibiId": currentUser.id,
                     "yorumTarihi": Firebase.ServerValue.TIMESTAMP,
+                    "yorumPuanSayisi": 0,
                     "text": $scope.yorum
                 });
+
+                $scope.post.yorumSayisi++;
+                $scope.post.$save();
+
 
                 $scope.yorum = "";
             }else{
                 $location.path('/kayit');
             }
         };
+
+        $scope.yorumPuanVer = function(item){
+            if(currentUser){
+                var yorumPuan = ref.child("yorumlar").child(postId).child(item).child("yorumPuanlar");
+                var yorumPuanObj = $firebaseObject(yorumPuan);
+                var id = currentUser.id;
+
+                yorumPuan.once('value', function (snapshot){
+                    if(!snapshot.hasChild(id)){
+                        var yeniPuan = $firebaseArray(yorumPuan.child(id));
+
+                        if(!snapshot.hasChild("yorumPuanSayisi")){
+                          yorumPuanObj.$bindTo($scope, "data").then(function() {
+                            $scope.data.yorumPuanSayisi = 1;
+                          });
+                        }else{
+                          yorumPuanObj.$bindTo($scope, "data").then(function() {
+                            $scope.data.yorumPuanSayisi++;
+                          });
+                        }
+
+                        yeniPuan.$add({
+                            "puanSahibi": currentUser.name,
+                            "puanTarihi": Firebase.ServerValue.TIMESTAMP
+
+                        });
+
+                    }else{
+                        console.log("Zateen puan vermişsin.");
+                    }
+                });
+            }else{
+                $location.path('/kayit');
+            }
+        };
+
 
         $scope.puanVer = function(){
             if(currentUser){
@@ -203,7 +228,8 @@ app.controller('AddController',
                     "kesfeden": currentUser.name,
                     "kesfedenId": currentUser.id,
                     "puanSayisi": 0,
-                    "sonPuan":1
+                    "sonPuan":1,
+                    "yorumSayisi":0
 
                 }
             );

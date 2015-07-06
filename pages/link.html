@@ -9,7 +9,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{post.link}}"><p class="title">{{post.linkad}}</p></a><p class="website"> ({{post.linkkok}})</p>
 			</div>
 			<div class="linkinfo">
-				<p>ilk keşfeden </p><p class="linker">{{post.kesfeden}} </p><p am-time-ago="post.tarih"></p> | <p class="comment">{{yorumsay(post.yorumlar)}} yorum</p> | <p>düzenle</p>
+				<p>ilk keşfeden </p><p class="linker">{{post.kesfeden}} </p><p am-time-ago="post.tarih"></p> | <p class="comment">{{post.yorumSayisi}} yorum</p> | <p>sil</p>
 			</div>
 		</div>
 		<div class="yorumgonder">
@@ -18,8 +18,8 @@
 				<button ng-disabled="!yorum" ng-click="yorumYap()">yorum yap</button>
 			</form>
 		</div>
-		<div class="yorum" ng-repeat="item in post.yorumlar | orderBy: '-yorumPuani.length'">
-			<div class="upvote"><i class="upvote-ikon" ng-click="yorumPuanVer(item.$id)"></i> <span>{{yorumsay(item.yorumPuani)}} p</span></div>
+		<div class="yorum" ng-repeat="item in yorumlar | orderBy: '-yorumPuani.length'">
+			<div class="upvote"><i class="upvote-ikon" ng-click="yorumPuanVer(item.$id)"></i> <span>{{item.yorumPuanlar.yorumPuanSayisi}} p</span></div>
 			<div class="yorumyazan"><span class="linker">{{item.yorumSahibi}}</span> | <span am-time-ago="item.yorumTarihi"></span></div>
 			<p>{{item.text}} </p>
 		</div>
