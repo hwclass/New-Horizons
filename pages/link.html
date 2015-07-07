@@ -5,7 +5,7 @@
 	<div class="linkpage">
 		<div class="link1">
 			<div class="linktitle">
-				<div class="upvote"><i class="upvote-icon" ng-click="puanVer()"></i><p>{{post.puanSayisi}} p</p></div>
+				<div class="upvote"><i class="upvote-icon" ng-click="puanVer(post.$id)"></i><p>{{post.puanSayisi}} p</p></div>
 				&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{post.link}}"><p class="title">{{post.linkad}}</p></a><p class="website"> ({{post.linkkok}})</p>
 			</div>
 			<div class="linkinfo">
@@ -19,7 +19,7 @@
 			</form>
 		</div>
 		<div class="yorum" ng-repeat="item in yorumlar | orderBy: 'item.yorumTarihi'">
-			<div class="upvote"><i class="upvote-ikon" ng-click="yorumPuanVer(item.$id)"></i><span>{{item.yorumPuanSayisi}} p</span></div>
+			<div class="upvote"><i class="upvote-ikon" ng-click="yorumPuanVer(post.$id, item.$id)"></i><span>{{item.yorumPuanSayisi}} p</span></div>
 			<div class="yorumyazan"><span class="linker">{{item.yorumSahibi}}</span> | <span am-time-ago="item.yorumTarihi"></span></div>
 			<p>{{item.text}} </p>
 		</div>

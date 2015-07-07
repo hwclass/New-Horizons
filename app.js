@@ -48,76 +48,65 @@ app.factory("ref", function(){
     return new Firebase('https://kesfet-io.firebaseio.com');
 });
 
+app.factory("PuanVerme", function(ref, $firebaseArray, Auth, $location, toaster){
+  var puanVerme = {
+    puanVer: function(postid, yorumid){
+        var currentUser = Auth.user.profile;
+        if(currentUser){
+            var postPuan;
+            if(yorumid){
+              postPuan = ref.child("yorumlar").child(postid).child(yorumid).child("yorumPuanlar")
+            }else{
+              postPuan = ref.child("puanlar").child(postid);
+            }
+            var id = currentUser.id;
+            var kontrol;
+            postPuan.once('value', function (snapshot){
+                if(!snapshot.hasChild(id)){
+                    var yeniPuan = postPuan.child(id);
+
+                    yeniPuan.set({
+                        "puanSahibi": currentUser.name,
+                        "puanTarihi": Firebase.ServerValue.TIMESTAMP
+                    });
+                    kontrol=true;
+                }else{
+                  toaster.pop('error',"Zaten puan vermişsin!");
+                  kontrol=false;
+                }
+            });
+        }else{
+            $location.path('/kayit');
+            toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
+            kontrol= false;
+        }
+        return kontrol;
+    }
+  };
+
+  return puanVerme;
+});
 
 app.controller('ListController',
-    function($scope, ref, $firebaseArray, $firebaseObject, Auth, $location, toaster){
+    function($scope, ref, $firebaseArray, $firebaseObject, Auth, $location, toaster, PuanVerme){
         $scope.posts = $firebaseArray(ref.child("posts"));
         $scope.puanlar = $firebaseArray(ref.child("puanlar"));
 
-        $scope.predicate = "-sonPuan";
-        var currentUser = Auth.user.profile;
-
-        $scope.son24Puan = function(item){
-            item.sonPuan = 0;
-            var suAn = Firebase.ServerValue.TIMESTAMP;
-            var myDate = Firebase.ServerValue.TIMESTAMP-86400;
-            //myDate.setHours(myDate.getHours() - 24);
-
-            var sayi = 0;
-            for(i in item.puan){
-                sayi++;
-            }
-
-            for(var i = 0; i<sayi;i++){
-                if(myDate < item.puan[i].tarih && item.puan[i].tarih < suAn){
-                    item.sonPuan++;
-                    //item.$save();
-                }
-            }
-
-        };
-
+        $scope.predicate = "-puanSayisi";
 
         $scope.puanVer = function(item){
-
-            var postPuan = ref.child("puanlar").child(item);
-            var post = $firebaseObject(ref.child("posts").child(item));
-            var id = currentUser.id;
-
-            if(currentUser){
-                postPuan.once('value', function (snapshot){
-                    if(!snapshot.hasChild(id)){
-                        var yeniPuan = $firebaseArray(postPuan.child(id));
-
-                        yeniPuan.$add({
-                            "puanSahibi": currentUser.name,
-                            "puanTarihi": Firebase.ServerValue.TIMESTAMP
-
-                        });
-
-                        post.$bindTo($scope, "data").then(function() {
-                          $scope.data.puanSayisi++;
-                        });
-
-                    }else{
-                      toaster.pop('error',"Zaten puan vermişsin!");
-                    }
-                });
-            }else{
-                $location.path('/kayit');
-                toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
+            if(PuanVerme.puanVer(item)){
+              var post = $firebaseObject(ref.child("posts").child(item));
+              post.$bindTo($scope, "data").then(function() {
+                $scope.data.puanSayisi++;
+              });
             }
-
-
         };
-
-
-
     }
 );
 
 app.controller('LinkController',
-    function($scope, ref, $stateParams, $firebaseObject, $firebaseArray, Auth, $location, toaster){
+    function($scope, ref, $stateParams, $firebaseObject, $firebaseArray, Auth, $location, toaster, PuanVerme){
         var postId = $stateParams.postId;
 
         var post = $firebaseObject(ref.child("posts").child(postId));
@@ -150,62 +139,21 @@ app.controller('LinkController',
             }
         };
 
-        $scope.yorumPuanVer = function(item){
-            if(currentUser){
-                var yorumPuan = ref.child("yorumlar").child(postId).child(item).child("yorumPuanlar");
-                var yorumPuanObj = $firebaseObject(yorumPuan);
-                var id = currentUser.id;
+        $scope.yorumPuanVer = function(item, item2){
+            if(PuanVerme.puanVer(item, item2)){
                 var yorum = $firebaseObject(ref.child("yorumlar").child(postId).child(item));
-
-                yorumPuan.once('value', function (snapshot){
-                    if(!snapshot.hasChild(id)){
-                        var yeniPuan = $firebaseArray(yorumPuan.child(id));
-
-                          yorum.$bindTo($scope, "data").then(function() {
-                            $scope.data.yorumPuanSayisi++;
-                          });
-
-                        yeniPuan.$add({
-                            "puanSahibi": currentUser.name,
-                            "puanTarihi": Firebase.ServerValue.TIMESTAMP
-
-                        });
-
-                    }else{
-                      toaster.pop('error',"Zaten puan vermişsin!");
-                    }
+                yorum.$bindTo($scope, "data").then(function() {
+                  $scope.data.yorumPuanSayisi++;
                 });
-            }else{
-                $location.path('/kayit');
-                toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
             }
         };
 
 
-        $scope.puanVer = function(){
-            if(currentUser){
-                var postPuan = ref.child("puanlar").child(postId);
-                var id = currentUser.id;
-                postPuan.once('value', function (snapshot){
-                    if(!snapshot.hasChild(id)){
-                        var yeniPuan = $firebaseArray(postPuan.child(id));
-
-                        yeniPuan.$add({
-                            "puanSahibi": currentUser.name,
-                            "puanTarihi": Firebase.ServerValue.TIMESTAMP
-
-                        });
-
-                        $scope.post.puanSayisi++;
-                        $scope.post.$save();
-                    }else{
-                      toaster.pop('error',"Zaten puan vermişsin!");
-                    }
-                });
-            }else{
-              toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
-              $location.path('/kayit');
-            }
+        $scope.puanVer = function(item){
+          if(PuanVerme.puanVer(item)){
+            $scope.post.puanSayisi++;
+            $scope.post.$save();
+          }
         };
 
         $scope.silGoster = function(){
@@ -248,7 +196,6 @@ app.controller('AddController',
 
 
         $scope.NewPost = function(){
-
             $scope.posts.$add(
                 {
                     "link": $scope.link,
@@ -259,18 +206,15 @@ app.controller('AddController',
                     "kesfeden": currentUser.name,
                     "kesfedenId": currentUser.id,
                     "puanSayisi": 0,
-                    "sonPuan":1,
+                    "sonPuan":0,
                     "yorumSayisi":0
 
                 }
             );
 
             toaster.pop('success',"Link başarıyla eklendi!");
-
             $location.path('/');
         }
-
-
     }
 );
 
@@ -408,7 +352,6 @@ app.controller('AuthController', function($scope, $location, $firebaseArray, Aut
           console.log("Error...")
         });
     }
-
 
 });
 
