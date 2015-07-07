@@ -55,7 +55,7 @@ app.factory("PuanVerme", function(ref, $firebaseArray, Auth, $location, toaster)
         if(currentUser){
             var postPuan;
             if(yorumid){
-              postPuan = ref.child("yorumlar").child(postid).child(yorumid).child("yorumPuanlar")
+              postPuan = ref.child("yorumlar").child(postid).child(yorumid).child("yorumPuanlar");
             }else{
               postPuan = ref.child("puanlar").child(postid);
             }
@@ -141,7 +141,7 @@ app.controller('LinkController',
 
         $scope.yorumPuanVer = function(item, item2){
             if(PuanVerme.puanVer(item, item2)){
-                var yorum = $firebaseObject(ref.child("yorumlar").child(postId).child(item));
+                var yorum = $firebaseObject(ref.child("yorumlar").child(item).child(item2));
                 yorum.$bindTo($scope, "data").then(function() {
                   $scope.data.yorumPuanSayisi++;
                 });
