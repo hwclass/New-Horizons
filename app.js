@@ -148,7 +148,6 @@ app.controller('LinkController',
             }
         };
 
-
         $scope.puanVer = function(item){
           if(PuanVerme.puanVer(item)){
             $scope.post.puanSayisi++;
@@ -194,12 +193,33 @@ app.controller('AddController',
         $scope.teknoloji = false;
         $scope.bilim = false;
 
+        var isUnique = function(item){
+          var list = $scope.posts;
+          if(list.length == 0){
+            return true;
+          }
+          for(var i=0; i < list.length; i++){
+            if(list[i][item] == $scope[item]){
+              if(item == "link"){
+                toaster.pop('error',"Bu link daha önce eklenmiş!");
+                return false;
+              }else if(item == "baslik"){
+                toaster.pop('error',"Bu başlık daha önce eklenmiş!");
+                return false;
+              }
+            }else{
+              return true;
+            }
+          }
+        }
 
         $scope.NewPost = function(){
+
+          if(isUnique("link") && isUnique("baslik")){
             $scope.posts.$add(
                 {
                     "link": $scope.link,
-                    "linkad": $scope.baslik,
+                    "baslik": $scope.baslik,
                     "kategoriler": {teknoloji: $scope.teknoloji, bilim: $scope.bilim},
                     "linkkok": base($scope.link),
                     "tarih": Firebase.ServerValue.TIMESTAMP,
@@ -208,12 +228,12 @@ app.controller('AddController',
                     "puanSayisi": 0,
                     "sonPuan":0,
                     "yorumSayisi":0
-
                 }
             );
 
             toaster.pop('success',"Link başarıyla eklendi!");
             $location.path('/');
+          }
         }
     }
 );
@@ -284,7 +304,7 @@ app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
 
 });
 
-app.controller('AuthController', function($scope, $location, $firebaseArray, Auth, ref, toaster){
+app.controller('AuthController', function($scope, $location, $firebaseArray, $firebaseObject, Auth, ref, toaster){
     /*if(Auth.signedIn()){
       $location.path('/');
     }*/

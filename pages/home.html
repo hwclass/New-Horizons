@@ -7,7 +7,7 @@
             <li ng-class="$index % 2 == 0 ? 'link1' : 'link2'"  ng-repeat="post in posts | orderBy:predicate | limitTo:15">
                 <div class="linktitle">
                     <div class="upvote"><i class="upvote-icon" ng-click="puanVer(post.$id)"></i> <p>{{post.puanSayisi}} p</p></div>
-                    {{$index+1}}. <a href="{{post.link}}" target="_blank"><p class="title">{{post.linkad}}</p></a><p class="website"> ({{post.linkkok}})</p>
+                    {{$index+1}}. <a href="{{post.link}}" target="_blank"><p class="title">{{post.baslik}}</p></a><p class="website"> ({{post.linkkok}})</p>
                 </div>
                 <div class="linkinfo">
                     <p>ilk keşfeden </p><p class="linker">{{post.kesfeden}} </p><p am-time-ago="post.tarih"></p> | <a href="#/link/{{post.$id}}"><p class="comment">{{post.yorumSayisi}} yorum</p></a>
