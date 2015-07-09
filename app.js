@@ -10,7 +10,8 @@ app.config(function($stateProvider, $urlRouterProvider){
     $stateProvider
         .state("/", {
             url: '/',
-            templateUrl: "pages/home.html"
+            templateUrl: "pages/home.html",
+            controller: "ListController"
         })
         .state("kayit", {
             url: '/kayit',
@@ -34,8 +35,7 @@ app.config(function($stateProvider, $urlRouterProvider){
         })
         .state("linkekle", {
             url: '/link-ekle',
-            templateUrl: "pages/linkekle.html",
-            controller: "ListController"
+            templateUrl: "pages/linkekle.html"
         })
         .state("link", {
             url: '/link/:postId',
@@ -44,23 +44,73 @@ app.config(function($stateProvider, $urlRouterProvider){
         });
 });
 
-app.factory("ref", function(){
-    return new Firebase('https://kesfet-io.firebaseio.com');
+app.factory("Getir", function($firebaseArray, $firebaseObject, $firebaseAuth){
+  var ref = new Firebase('https://kesfet-io.firebaseio.com');
+
+  var Getir = {
+    posts: function(){
+      return ref.child("posts");
+    },
+    postsAr: function(){
+      return $firebaseArray(ref.child("posts"));
+    },
+    postOb: function(item){
+      return $firebaseObject(ref.child("posts").child(item));
+    },
+    puanlarAr: function(){
+      return $firebaseArray(ref.child("puanlar"));
+    },
+    puanlarOb: function(item){
+      return $firebaseObject(ref.child("puanlar").child(item));
+    },
+    puan: function(item){
+      return ref.child("puanlar").child(item);
+    },
+    puanOb: function(item){
+      return $firebaseObject(ref.child("puanlar").child(item));
+    },
+    yorumlarOb: function(item){
+      return $firebaseObject(ref.child("yorumlar").child(item));
+    },
+    yorumlarAr: function(item){
+      return $firebaseArray(ref.child("yorumlar").child(item));
+    },
+    yorumOb: function(item, item2){
+      return $firebaseObject(ref.child("yorumlar").child(item).child(item2));
+    },
+    yorumPuan: function(item, item2){
+      return ref.child("yorumlar").child(item).child(item2).child("yorumPuanlar");
+    },
+    profiler: function(){
+      return ref.child("profile");
+    },
+    uyeCek: function(item){
+      return ref.child("profile").orderByChild("name").equalTo(item);
+    },
+    profilOb: function(item){
+      return $firebaseObject(ref.child("profile").child(item));
+    },
+    auth: function(){
+      return $firebaseAuth(ref);
+    }
+  };
+
+  return Getir;
 });
 
-app.factory("PuanVerme", function(ref, $firebaseArray, Auth, $location, toaster){
+app.factory("PuanVerme", function(Auth, $location, toaster, Getir){
   var puanVerme = {
     puanVer: function(postid, yorumid){
         var currentUser = Auth.user.profile;
+        var kontrol;
         if(currentUser){
             var postPuan;
             if(yorumid){
-              postPuan = ref.child("yorumlar").child(postid).child(yorumid).child("yorumPuanlar");
+              postPuan = Getir.yorumPuan(postid, yorumid);
             }else{
-              postPuan = ref.child("puanlar").child(postid);
+              postPuan = Getir.puan(postid);
             }
             var id = currentUser.id;
-            var kontrol;
             postPuan.once('value', function (snapshot){
                 if(!snapshot.hasChild(id)){
                     var yeniPuan = postPuan.child(id);
@@ -78,7 +128,7 @@ app.factory("PuanVerme", function(ref, $firebaseArray, Auth, $location, toaster)
         }else{
             $location.path('/kayit');
             toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
-            kontrol= false;
+            kontrol=false;
         }
         return kontrol;
     }
@@ -88,16 +138,18 @@ app.factory("PuanVerme", function(ref, $firebaseArray, Auth, $location, toaster)
 });
 
 app.controller('ListController',
-    function($scope, ref, $firebaseArray, $firebaseObject, Auth, $location, toaster, PuanVerme){
-        $scope.posts = $firebaseArray(ref.child("posts"));
-        $scope.puanlar = $firebaseArray(ref.child("puanlar"));
+    function($scope, $location, toaster, PuanVerme, Getir, $firebaseArray){
+        $scope.posts = Getir.postsAr();
+        $scope.puanlar = Getir.puanlarAr();
+
+
 
         $scope.predicate = "-puanSayisi";
 
         $scope.puanVer = function(item){
             if(PuanVerme.puanVer(item)){
-              var post = $firebaseObject(ref.child("posts").child(item));
-              post.$bindTo($scope, "data").then(function() {
+              var postam = Getir.postOb(item);
+              postam.$bindTo($scope, "data").then(function() {
                 $scope.data.puanSayisi++;
               });
             }
@@ -106,13 +158,13 @@ app.controller('ListController',
 );
 
 app.controller('LinkController',
-    function($scope, ref, $stateParams, $firebaseObject, $firebaseArray, Auth, $location, toaster, PuanVerme){
+    function($scope, $stateParams, Auth, $location, toaster, PuanVerme, Getir){
         var postId = $stateParams.postId;
 
-        var post = $firebaseObject(ref.child("posts").child(postId));
-        $scope.yorumlar = $firebaseArray(ref.child("yorumlar").child(postId));
-        var puanlar = $firebaseObject(ref.child("puanlar").child(postId));
-        var yorumlar = $firebaseObject(ref.child("yorumlar").child(postId));
+        var post = Getir.postOb(postId);
+        $scope.yorumlar = Getir.yorumlarAr(postId);
+        var puanlar = Getir.puanOb(postId);
+        var yorumlar = Getir.yorumlarOb(postId);
 
         $scope.post = post;
 
@@ -141,7 +193,7 @@ app.controller('LinkController',
 
         $scope.yorumPuanVer = function(item, item2){
             if(PuanVerme.puanVer(item, item2)){
-                var yorum = $firebaseObject(ref.child("yorumlar").child(item).child(item2));
+                var yorum = Getir.yorumOb(item, item2);
                 yorum.$bindTo($scope, "data").then(function() {
                   $scope.data.yorumPuanSayisi++;
                 });
@@ -177,9 +229,9 @@ app.controller('LinkController',
 );
 
 app.controller('AddController',
-    function($scope, ref, $location, $firebaseArray, Auth, toaster) {
+    function($scope, $location, Auth, toaster, Getir) {
 
-        $scope.posts = $firebaseArray(ref.child("posts"));
+        $scope.posts = Getir.postsAr();
 
         var currentUser = Auth.user.profile;
 
@@ -238,9 +290,9 @@ app.controller('AddController',
     }
 );
 
-app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
+app.factory('Auth', function(Getir){
 
-    var auth = $firebaseAuth(ref);
+    var auth = Getir.auth();
 
     var Auth = {
         user: {},
@@ -252,7 +304,7 @@ app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
                 id: uid
             };
 
-            var profileRef = ref.child("profile");
+            var profileRef = Getir.profiler();
 
             return profileRef.child(uid).set(profile);
         },
@@ -291,7 +343,7 @@ app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
     auth.$onAuth(function(authData){
         if(authData){
             angular.copy(authData, Auth.user);
-            Auth.user.profile = $firebaseObject(ref.child("profile").child(authData.uid));
+            Auth.user.profile = Getir.profilOb(authData.uid);
         }else{
             if(Auth.user && Auth.user.profile){
                 Auth.user.profile.$destroy();
@@ -304,26 +356,42 @@ app.factory('Auth', function(ref, $firebaseAuth, $firebaseObject){
 
 });
 
-app.controller('AuthController', function($scope, $location, $firebaseArray, $firebaseObject, Auth, ref, toaster){
+app.controller('AuthController', function($scope, $location, Auth, toaster, Getir, $q){
     /*if(Auth.signedIn()){
       $location.path('/');
     }*/
 
     $scope.register = function(user){
-        Auth.register(user).then(function(){
-            toaster.pop('success',"Register successfully!");
-            $location.path('/');
-        }, function(error){
-            switch (error.code) {
-               case "EMAIL_TAKEN":
-                 toaster.pop('error',"Bu email ile daha önce kayıt olunmuş.");
-                 break;
-               case "INVALID_EMAIL":
-                 toaster.pop('error',"Email adresiniz doğru yazılmamış.");
-                 break;
-               default:
-                 toaster.pop('error',"Error logging user in:", error);
-             }
+        var uyeList = Getir.uyeCek(user.name);
+        var def = $q.defer();
+
+        var deger = function(){
+          uyeList.once('value', function(snapshot){
+            def.resolve(snapshot.val());
+          });
+            return def.promise;
+        }
+        
+        deger().then(function(whatIWant){
+          if(whatIWant === null){
+            Auth.register(user).then(function(){
+                toaster.pop('success',"Register successfully!");
+                $location.path('/');
+              }, function(error){
+                switch (error.code) {
+                   case "EMAIL_TAKEN":
+                     toaster.pop('error',"Bu email ile daha önce kayıt olunmuş.");
+                     break;
+                   case "INVALID_EMAIL":
+                     toaster.pop('error',"Email adresiniz doğru yazılmamış.");
+                     break;
+                   default:
+                     toaster.pop('error',"Error logging user in:", error);
+                 }
+            });
+          }else{
+            toaster.pop('error',"Bu kullanıcı adı ile daha önce kayıt olunmuş.");
+          }
         });
     };
 
