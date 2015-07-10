@@ -138,11 +138,18 @@ app.factory("PuanVerme", function(Auth, $location, toaster, Getir){
 });
 
 app.controller('ListController',
-    function($scope, $location, toaster, PuanVerme, Getir, $firebaseArray){
+    function($scope, $location, toaster, PuanVerme, Getir){
         $scope.posts = Getir.postsAr();
         $scope.puanlar = Getir.puanlarAr();
 
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
 
+        $scope.posts.$loaded().then(function(item) {
+          $scope.numberOfPages=function(){
+            return Math.ceil(item.length/$scope.pageSize);
+          }
+        });
 
         $scope.predicate = "-puanSayisi";
 
@@ -154,6 +161,8 @@ app.controller('ListController',
               });
             }
         };
+
+
     }
 );
 
@@ -266,6 +275,7 @@ app.controller('AddController',
         }
 
         $scope.NewPost = function(){
+          console.log(currentUser);
 
           if(isUnique("link") && isUnique("baslik")){
             $scope.posts.$add(
@@ -371,7 +381,7 @@ app.controller('AuthController', function($scope, $location, Auth, toaster, Geti
           });
             return def.promise;
         }
-        
+
         deger().then(function(whatIWant){
           if(whatIWant === null){
             Auth.register(user).then(function(){
