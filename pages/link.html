@@ -1,27 +1,41 @@
-﻿<div class="content">
-	<div class="nav">
-		<div class="addlink"><a ui-sref="/"><p>« anasayfaya dön</p></a></div>
-	</div>
-	<div class="linkpage">
-		<div class="link1">
-			<div class="linktitle">
-				<div class="upvote"><i class="upvote-icon" ng-click="puanVer(post.$id)"></i><p>{{post.puanSayisi}} p</p></div>
-				&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{post.link}}"><p class="title">{{post.baslik}}</p></a><p class="website"> ({{post.linkkok}})</p>
-			</div>
-			<div class="linkinfo">
-				<p>ilk keşfeden </p><p class="linker">{{post.kesfeden}} </p><p am-time-ago="post.tarih"></p> | <p class="comment">{{post.yorumSayisi}} yorum</p> | <a href="#" ng-click="sil()"><span ng-show="silGoster()" >sil</span></a>
+<div class="detail">
+	<article>
+		<div class="darkside">
+			<div class="point">
+				<img src="img/up.png" ng-click="puanVer(post.$id)">
+				<span>{{post.puanSayisi}} p</span>
 			</div>
 		</div>
-		<div class="yorumgonder">
+		<div class="lightside">
+			<span class="url-base">{{post.linkkok}}</span>
+			<h1><a href="{{post.link}}">{{post.baslik}}</a></h1>
+			<div class="link-info">
+				<span class="author">{{post.kesfeden}}</span> • <span class="time" am-time-ago="post.tarih"></span> • <a href="#/link/{{post.$id}}" class="comment-count">{{post.yorumSayisi}} Comments</a><a href="#" ng-click="sil()"><span ng-show="silGoster()"> • sil</span></a>
+			</link-info>
+		</div>
+	</article>
+	<div class="discussion">
+		<div class="post-comment">
 			<form name="frm">
-				<textarea id="taid" cols="65" rows="8" wrap="soft" ng-model="yorum" ></textarea>
-				<button ng-disabled="!yorum" ng-click="yorumYap()">yorum yap</button>
+				<textarea cols="65" rows="8" wrap="soft" ng-model="yorum"></textarea>
+				<button class="post-button" ng-disabled="!yorum" ng-click="yorumYap()">Post Comment</button>
 			</form>
 		</div>
-		<div class="yorum" ng-repeat="item in yorumlar | orderBy: 'item.yorumTarihi'">
-			<div class="upvote"><i class="upvote-ikon" ng-click="yorumPuanVer(post.$id, item.$id)"></i><span>{{item.yorumPuanSayisi}} p</span></div>
-			<div class="yorumyazan"><span class="linker">{{item.yorumSahibi}}</span> | <span am-time-ago="item.yorumTarihi"></span></div>
-			<p>{{item.text}} </p>
+
+		<div class="comment" ng-repeat="item in yorumlar | orderBy: 'item.yorumTarihi'">
+			<div class="batman">
+				<div class="mini-point">
+					<img src="img/up.png" ng-click="yorumPuanVer(post.$id, item.$id)">
+					<span>{{item.yorumPuanSayisi}} p</span>
+				</div>
+			</div>
+			<div class="superman">
+				<div class="comment-info">
+					<span class="commenter">{{item.yorumSahibi}}</span> • <span class="time" am-time-ago="item.yorumTarihi"></span> <a href="" ng-show="yorumSilGoster(item.yorumSahibi)" ng-click="yorumSil(post.$id, item.$id)"><span> • sil</span></a>
+				</div>
+				<div class="comment-text">{{item.text}}</div>
+			</div>
 		</div>
+
 	</div>
 </div>

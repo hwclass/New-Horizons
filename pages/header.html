@@ -1,8 +1,16 @@
-<div class="header" ng-controller="NavController">
-    <div class="register"><a ui-sref="kayit" ng-hide="signedIn()"><p>kayıt ol</p></a><a ui-sref="linkekle" ng-show="signedIn()"><p>link ekle</p></a></div>
-    <div class="sagkisim">
-      <div class="setting" ng-show="signedIn()"><a ui-sref="change"><img src="img/setting.png"/></a></div>
-      <div class="login"><a ui-sref="giris" ng-hide="signedIn()"><p>giriş yap</p></a><a href="#" ng-click="logout(user)" ng-show="signedIn()"><p>çıkış yap</p></a></div>
-    </div>
-    <div class="logo"><img src="img/logo.png"/><p>şimdilik sadece #bilim ve #teknoloji ile ilgili</p></div>
-</div>
+<header ng-controller="NavController">
+  <div class="left-side">
+    <img src="img/logo.png" ui-sref="/">
+    <span class="slogan">Slogan is here</span>
+  </div>
+  <div class="right-side">
+    <button class="share-link" ui-sref="share-link" ng-show="signedIn()">Share Link</button>
+    <button class="register" ui-sref="register" ng-hide="signedIn()">Register</button>
+    <button class="signin" ui-sref="sign-in" ng-hide="signedIn()" ui-sref="sign-in" >Sign In</button>
+    <button class="menu" ng-show="signedIn()" ng-init="menuOpen = false" ng-click="menuOpen = !menuOpen"></button>
+    <ul class="dropdown-menu" ng-class="menuOpen == true ? 'showMenu' : 'hideMenu'">
+      <a ui-sref="change-pass" ng-show="signedIn()" ng-click="menuOpen = false"><li>Profile</li></a>
+      <a href="#" ng-click="logout(user)" ng-show="signedIn()"><li>Sign Out</li></a>
+    </ul>
+  </div>
+</header>

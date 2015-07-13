@@ -1,0 +1,23 @@
+<div class="section-form">
+	<h1>Change Password</h1>
+	<form name="frm">
+		<table class="form-table">
+			<tr>
+				<td><span>Email:</span></td>
+				<td><input type="text" ng-model="user.email" required></td>
+			</tr>
+			<tr>
+				<td><span>Old Password:</span></td>
+				<td><input type="password" ng-model="user.oldpass" required></td>
+			</tr>
+			<tr>
+				<td><span>New Password:</span></td>
+				<td><input type="password" ng-model="user.newpass" required></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><button ng-click="changePassword(user)" ng-disabled="frm.$invalid">Change</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

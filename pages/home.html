@@ -1,21 +1,24 @@
-<div class="content">
-    <div class="nav">
-        <div class="popnew"><a href="" ng-click="predicate = '-puanSayisi'"><p ng-class="predicate == '-puanSayisi' ? 'secili' : ''">popüler</p></a> | <a href="" ng-click="predicate = '-tarih'" ng-class="predicate == '-tarih' ? 'secili' : ''"><p>en yeni</p></a></div>
+<div class="search">
+    <input value="Search" onclick="this.value='';" ng-model="searchText">
+</div>
+<section>
+  <div class="filter"><a ng-class="predicate == '-puanSayisi' ? 'secili' : ''" ng-click="predicate = '-puanSayisi'">Most Popular</a> - <a ng-class="predicate == '-tarih' ? 'secili' : ''" ng-click="predicate = '-tarih'">Newest</span></div>
+  <article ng-repeat="post in posts | orderBy:predicate | limitTo: pageSize : currentPage*pageSize | filter: searchText">
+    <div class="darkside">
+      <div class="point">
+        <img src="img/up.png" ng-click="puanVer(post.$id)">
+        <span>{{post.puanSayisi}} p</span>
+      </div>
     </div>
-    <div class="linklist">
-        <ul>
-            <li ng-class="$index % 2 == 0 ? 'link1' : 'link2'"  ng-repeat="post in posts | orderBy:predicate | limitTo: pageSize : currentPage*pageSize ">
-                <div class="linktitle">
-                    <div class="upvote"><i class="upvote-icon" ng-click="puanVer(post.$id)"></i> <p>{{post.puanSayisi}} p</p></div>
-                    {{$index+1+(currentPage*pageSize)}}. <a href="{{post.link}}" target="_blank"><p class="title">{{post.baslik}}</p></a><p class="website"> ({{post.linkkok}})</p>
-                </div>
-                <div class="linkinfo">
-                    <p>ilk keşfeden </p><p class="linker">{{post.kesfeden}} </p><p am-time-ago="post.tarih"></p> | <a href="#/link/{{post.$id}}"><p class="comment">{{post.yorumSayisi}} yorum</p></a>
-                </div>
-            </li>
-        </ul>
-    </div><div>
-    <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
-    {{currentPage+1}}/{{numberOfPages()}}
-    <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button></div>
+    <div class="lightside">
+      <div class="url-base">{{post.linkkok.toUpperCase()}}</div>
+      <h1><a href="{{post.link}}" target="_blank">{{post.baslik}}</a></h1></a>
+      <div class="link-info">
+        <span class="author">{{post.kesfeden}}</span> • <span class="time" am-time-ago="post.tarih">42 hours ago</span> • <a class="comment-count" href="#/link/{{post.$id}}">{{post.yorumSayisi}} Comments</a>
+      </div>
+    </div>
+  </article>
+</section>
+<div class="page-nav">
+  <button class="previous" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button><button class="next" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
 </div>

@@ -13,29 +13,30 @@ app.config(function($stateProvider, $urlRouterProvider){
             templateUrl: "pages/home.html",
             controller: "ListController"
         })
-        .state("kayit", {
-            url: '/kayit',
-            templateUrl: "pages/invitation.html",
+        .state("register", {
+            url: '/register',
+            templateUrl: "pages/register.html",
             controller: "AuthController"
         })
-        .state("giris", {
-            url: '/giris',
-            templateUrl: "pages/login.html",
+        .state("sign-in", {
+            url: '/sign-in',
+            templateUrl: "pages/sign-in.html",
             controller: "AuthController"
         })
-        .state("unuttum", {
-            url: '/unuttum',
-            templateUrl: "pages/unuttum.html",
+        .state("reset-pass", {
+            url: '/reset-pass',
+            templateUrl: "pages/reset-pass.html",
             controller: "AuthController"
         })
-        .state("change", {
-            url: '/change',
-            templateUrl: "pages/change.html",
+        .state("change-pass", {
+            url: '/change-pass',
+            templateUrl: "pages/change-pass.html",
             controller: "AuthController"
         })
-        .state("linkekle", {
-            url: '/link-ekle',
-            templateUrl: "pages/linkekle.html"
+        .state("share-link", {
+            url: '/share-link',
+            templateUrl: "pages/share-link.html",
+            controller: "AddController"
         })
         .state("link", {
             url: '/link/:postId',
@@ -85,7 +86,7 @@ app.factory("Getir", function($firebaseArray, $firebaseObject, $firebaseAuth){
       return ref.child("profile");
     },
     uyeCek: function(item){
-      return ref.child("profile").orderByChild("name").equalTo(item);
+      return ref.child("profile").orderByChild("nameLow").equalTo(item);
     },
     profilOb: function(item){
       return $firebaseObject(ref.child("profile").child(item));
@@ -105,6 +106,7 @@ app.factory("PuanVerme", function(Auth, $location, toaster, Getir){
         var kontrol;
         if(currentUser){
             var postPuan;
+            var sonPuanlar;
             if(yorumid){
               postPuan = Getir.yorumPuan(postid, yorumid);
             }else{
@@ -119,6 +121,7 @@ app.factory("PuanVerme", function(Auth, $location, toaster, Getir){
                         "puanSahibi": currentUser.name,
                         "puanTarihi": Firebase.ServerValue.TIMESTAMP
                     });
+
                     kontrol=true;
                 }else{
                   toaster.pop('error',"Zaten puan vermişsin!");
@@ -143,7 +146,7 @@ app.controller('ListController',
         $scope.puanlar = Getir.puanlarAr();
 
         $scope.currentPage = 0;
-        $scope.pageSize = 15;
+        $scope.pageSize = 10;
 
         $scope.posts.$loaded().then(function(item) {
           $scope.numberOfPages=function(){
@@ -218,7 +221,7 @@ app.controller('LinkController',
 
         $scope.silGoster = function(){
           if(currentUser){
-            return currentUser.id == post.kesfedenId || currentUser.id == "simplelogin:43";
+            return currentUser.id == post.kesfedenId || currentUser.id == "simplelogin:42";
           }else{
             return false;
           }
@@ -234,6 +237,22 @@ app.controller('LinkController',
             toaster.pop('success',"Link başarıyla silindi!");
             $location.path('/');
         };
+
+        $scope.yorumSil = function(item, item2){
+          var yorum = Getir.yorumOb(item, item2);
+          yorum.$destroy();
+          yorum.$save();
+          var yazi = Getir.postOb(item);
+          yazi.$bindTo($scope, "data").then(function() {
+            $scope.data.yorumSayisi--;
+          });
+        };
+
+        $scope.yorumSilGoster = function(item){
+          if(item == currentUser.name || currentUser.name == "Mert"){
+            return true;
+          }
+        }
     }
 );
 
@@ -311,6 +330,7 @@ app.factory('Auth', function(Getir){
             var profile = {
                 name: user.name,
                 email: user.email,
+                nameLow: user.name.toLowerCase(),
                 id: uid
             };
 
@@ -372,7 +392,8 @@ app.controller('AuthController', function($scope, $location, Auth, toaster, Geti
     }*/
 
     $scope.register = function(user){
-        var uyeList = Getir.uyeCek(user.name);
+        var userNameLow = user.name.toLowerCase();
+        var uyeList = Getir.uyeCek(userNameLow);
         var def = $q.defer();
 
         var deger = function(){

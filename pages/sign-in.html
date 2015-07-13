@@ -1,0 +1,19 @@
+<div class="section-form">
+	<h1>Sign In</h1>
+	<form name="frm">
+		<table class="form-table">
+			<tr>
+				<td><span>Email:</span></td>
+				<td><input type="text" ng-model="user.email" required></td>
+			</tr>
+			<tr>
+				<td><span>Password:</span></td>
+				<td><input type="password" ng-model="user.password" required></td>
+			</tr>
+			<tr>
+				<td><a ui-sref="reset-pass" class="forgot">Forgot my password</a></td>
+				<td><button ng-click="login(user)" ng-disabled="frm.$invalid">Sign In</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

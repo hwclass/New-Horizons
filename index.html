@@ -14,14 +14,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.15/toaster.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-animate.js"></script>
 	<script src="app.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 
 
 <div ng-include="'pages/header.html'"></div>
-<toaster-container toaster-options="{'time-out':2500}"></toaster-container>
+<toaster-container toaster-options="{'time-out':4000, 'close-button': true}"></toaster-container>
 <ui-view></ui-view>
+
+<footer>This is an open source project.</footer>
 
 </body>
 </html>

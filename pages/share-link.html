@@ -1,0 +1,26 @@
+<div class="section-form">
+	<h1>Share Link</h1>
+	<form class="linkform" name="frm">
+		<table class="form-table">
+			<tr>
+				<td><span>Link:</span></td>
+				<td><input type="text" ng-model="link" required></td>
+			</tr>
+			<tr>
+				<td><span>Title:</span></td>
+				<td><input type="text" ng-model="baslik" required></td>
+			</tr>
+			<tr>
+				<td><span>Category:</span></td>
+				<td><input type="checkbox" ng-model="teknoloji" ng-required="!bilim">
+				<span>#teknoloji</span>
+				<input type="checkbox" ng-model="bilim"  ng-required="!teknoloji">
+				<span>#bilim</span></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><button ng-click="NewPost()" ng-disabled="frm.$invalid">Share</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

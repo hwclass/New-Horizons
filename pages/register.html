@@ -1,0 +1,23 @@
+<div class="section-form">
+	<h1>Register</h1>
+	<form name="frm">
+		<table class="form-table">
+			<tr>
+				<td><span>Username:</span></td>
+				<td><input type="text" ng-model="user.name" required></td>
+			</tr>
+			<tr>
+				<td><span>Email:</span></td>
+				<td><input type="text" ng-model="user.password" required></td>
+			</tr>
+			<tr>
+				<td><span>Password:</span></td>
+				<td><input type="password" ng-model="user.email" required></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><button ng-click="register(user)" ng-disabled="frm.$invalid">Register</button></td>
+			</tr>
+		</table>
+	</form>
+</div>

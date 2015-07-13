@@ -1,0 +1,15 @@
+<div class="section-form">
+	<h1>Reset Password</h1>
+	<form name="frm">
+		<table class="form-table">
+			<tr>
+				<td><span>Email:</span></td>
+				<td><input type="text" ng-model="user.email" required></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><button ng-click="resetPass(user.email)" ng-disabled="frm.$invalid">Send</button></td>
+			</tr>
+		</table>
+	</form>
+</div>
