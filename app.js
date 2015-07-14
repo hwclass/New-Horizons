@@ -129,7 +129,7 @@ app.factory("PuanVerme", function(Auth, $location, toaster, Getir){
                 }
             });
         }else{
-            $location.path('/kayit');
+            $location.path('/sign-in');
             toaster.pop('error',"Puan vermek için giriş yapmalısınız.");
             kontrol=false;
         }
@@ -169,6 +169,13 @@ app.controller('ListController',
     }
 );
 
+app.filter('unsafe', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+});
+
+
 app.controller('LinkController',
     function($scope, $stateParams, Auth, $location, toaster, PuanVerme, Getir){
         var postId = $stateParams.postId;
@@ -189,7 +196,7 @@ app.controller('LinkController',
                     "yorumSahibiId": currentUser.id,
                     "yorumTarihi": Firebase.ServerValue.TIMESTAMP,
                     "yorumPuanSayisi": 0,
-                    "text": $scope.yorum
+                    "text": $scope.yorum.replace(/\r?\n/g, '<br />')
                 });
 
                 $scope.post.yorumSayisi++;
@@ -198,7 +205,7 @@ app.controller('LinkController',
 
                 $scope.yorum = "";
             }else{
-                $location.path('/kayit');
+                $location.path('/sign-in');
                 toaster.pop('error',"Yorum yapmak için giriş yapmalısınız.");
             }
         };

@@ -296,7 +296,9 @@ footer{
   width: 100%;
   font-size: 0.750em;
   color:#D5CECE;
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 3px;
 }
 
 .section-detail{
@@ -405,7 +407,7 @@ footer{
   color: #E3472F;
 }
 
-.comment-info time{
+.comment-info .time{
   color: #727272;
   font-size: 0.813em;
 }

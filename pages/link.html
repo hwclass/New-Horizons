@@ -31,9 +31,9 @@
 			</div>
 			<div class="superman">
 				<div class="comment-info">
-					<span class="commenter">{{item.yorumSahibi}}</span> • <span class="time" am-time-ago="item.yorumTarihi"></span> <a href="" ng-show="yorumSilGoster(item.yorumSahibi)" ng-click="yorumSil(post.$id, item.$id)"><span> • sil</span></a>
+					<span class="commenter">{{item.yorumSahibi}}</span> <span class="time" am-time-ago="item.yorumTarihi"></span> <a href="" ng-show="yorumSilGoster(item.yorumSahibi)" ng-click="yorumSil(post.$id, item.$id)"><span> • sil</span></a>
 				</div>
-				<div class="comment-text">{{item.text}}</div>
+				<p class="comment-text" ng-bind-html="item.text | unsafe"></p>
 			</div>
 		</div>
 

@@ -3,7 +3,7 @@
 </div>
 <section>
   <div class="filter"><a ng-class="predicate == '-puanSayisi' ? 'secili' : ''" ng-click="predicate = '-puanSayisi'">Most Popular</a> - <a ng-class="predicate == '-tarih' ? 'secili' : ''" ng-click="predicate = '-tarih'">Newest</span></div>
-  <article ng-repeat="post in posts | orderBy:predicate | limitTo: pageSize : currentPage*pageSize | filter: searchText">
+  <article ng-repeat="post in posts | orderBy:predicate | filter: searchText | limitTo: pageSize : currentPage*pageSize | filter: searchText ">
     <div class="darkside">
       <div class="point">
         <img src="img/up.png" ng-click="puanVer(post.$id)">
