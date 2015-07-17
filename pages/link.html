@@ -3,35 +3,35 @@
 		<div class="darkside">
 			<div class="point">
 				<img src="img/up.png" ng-click="puanVer(post.$id)">
-				<span>{{post.puanSayisi}} p</span>
+				<span>{{post.numberOfPoint}} p</span>
 			</div>
 		</div>
 		<div class="lightside">
-			<span class="url-base">{{post.linkkok}}</span>
-			<h1><a href="{{post.link}}">{{post.baslik}}</a></h1>
+			<span class="url-base">{{post.linkBase.toUpperCase()}}</span>
+			<h1><a href="{{post.link}}">{{post.title}}</a></h1>
 			<div class="link-info">
-				<span class="author">{{post.kesfeden}}</span> • <span class="time" am-time-ago="post.tarih"></span> • <a href="#/link/{{post.$id}}" class="comment-count">{{post.yorumSayisi}} Comments</a><a href="#" ng-click="sil()"><span ng-show="silGoster()"> • sil</span></a>
+				<span class="author">{{post.user}}</span> • <span class="time" am-time-ago="post.date"></span> • <a href="#/link/{{post.$id}}" class="comment-count">{{post.numberOfComment}} Comments</a><a href="#" ng-click="sil()"><span ng-show="showDelete()"> • delete</span></a>
 			</link-info>
 		</div>
 	</article>
 	<div class="discussion">
 		<div class="post-comment">
 			<form name="frm">
-				<textarea cols="65" rows="8" wrap="soft" ng-model="yorum"></textarea>
-				<button class="post-button" ng-disabled="!yorum" ng-click="yorumYap()">Post Comment</button>
+				<textarea cols="65" rows="8" wrap="soft" ng-model="comment"></textarea>
+				<button class="post-button" ng-disabled="!comment" ng-click="postComment()">Post Comment</button>
 			</form>
 		</div>
 
-		<div class="comment" ng-repeat="item in yorumlar | orderBy: 'item.yorumTarihi'">
+		<div class="comment" ng-repeat="item in comments | orderBy: 'item.date'">
 			<div class="batman">
 				<div class="mini-point">
-					<img src="img/up.png" ng-click="yorumPuanVer(post.$id, item.$id)">
-					<span>{{item.yorumPuanSayisi}} p</span>
+					<img src="img/up.png" ng-click="commentGivePoint(post.$id, item.$id)">
+					<span>{{item.numberOfPoint}} p</span>
 				</div>
 			</div>
 			<div class="superman">
 				<div class="comment-info">
-					<span class="commenter">{{item.yorumSahibi}}</span> <span class="time" am-time-ago="item.yorumTarihi"></span> <a href="" ng-show="yorumSilGoster(item.yorumSahibi)" ng-click="yorumSil(post.$id, item.$id)"><span> • sil</span></a>
+					<span class="commenter">{{item.user}}</span> <span class="time" am-time-ago="item.date"></span> <a href="" ng-show="showCommentDelete(item.user)" ng-click="deleteComment(post.$id, item.$id)"><span> • delete</span></a>
 				</div>
 				<p class="comment-text" ng-bind-html="item.text | unsafe"></p>
 			</div>

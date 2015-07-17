@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html ng-app="KesfetApp">
+<html ng-app="NewHorizonsApp">
 <head>
-	<title>Kesfet.io</title>
+	<title>New Horizons</title>
 	<link rel="stylesheet" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
@@ -15,16 +15,25 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-animate.js"></script>
 	<script src="app.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+
+	<script src="services/FB.js" type="text/javascript"></script>
+	<script src="services/Auth.js" type="text/javascript"></script>
+	<script src="services/GivePoint.js" type="text/javascript"></script>
+	<script src="controllers/AddController.js" type="text/javascript"></script>
+	<script src="controllers/LinkController.js" type="text/javascript"></script>
+	<script src="controllers/AuthController.js" type="text/javascript"></script>
+	<script src="controllers/ListController.js" type="text/javascript"></script>
+	<script src="controllers/NavController.js" type="text/javascript"></script>
+
 </head>
 <body>
-
 
 
 <div ng-include="'pages/header.html'"></div>
 <toaster-container toaster-options="{'time-out':4000, 'close-button': true}"></toaster-container>
 <ui-view></ui-view>
 
-<footer>This is an open source project. Developed by Mert Bulan</footer>
+<footer>This is an open source project. Developed by Mert Bulan. You can access to source code on Github.</footer>
 
 </body>
 </html>

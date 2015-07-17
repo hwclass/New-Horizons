@@ -263,7 +263,7 @@ article{
   width: 100%;
   margin-top:10px;
   height: 30px;
-  padding-top: 10px;
+  padding-top: 5px;
   padding-left:10px;
   padding-right: 10px;
   border-radius: 4px;
@@ -409,14 +409,14 @@ footer{
 
 .comment-info .time{
   color: #727272;
-  font-size: 0.813em;
+  font-size: 0.853em;
 }
 
 .comment-text{
   margin-top:5px;
   font-size: 0.900em;
   float:left;
-  color: #555555;
+  color: #000;
 }
 
 .section-form{
