@@ -32,7 +32,7 @@ I think, link aggregation is very important for the internet. There are very use
 ###Installation
 
 ###Firebase Rules
-```
+```json
 {
     "rules": {
         "posts": {
