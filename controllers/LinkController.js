@@ -60,7 +60,7 @@ app.controller('LinkController',
             post.$destroy();
             post.$save();
             comments.$destroy();
-            yorcommentsumlar.$save();
+            comments.$save();
             points.$destroy();
             points.$save();
             toaster.pop('success',"Link was deleted successfully!");

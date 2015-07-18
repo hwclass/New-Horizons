@@ -10,7 +10,7 @@
 			<span class="url-base">{{post.linkBase.toUpperCase()}}</span>
 			<h1><a href="{{post.link}}">{{post.title}}</a></h1>
 			<div class="link-info">
-				<span class="author">{{post.user}}</span> • <span class="time" am-time-ago="post.date"></span> • <a href="#/link/{{post.$id}}" class="comment-count">{{post.numberOfComment}} Comments</a><a href="#" ng-click="sil()"><span ng-show="showDelete()"> • delete</span></a>
+				<span class="author">{{post.user}}</span> • <span class="time" am-time-ago="post.date"></span> • <a href="#/link/{{post.$id}}" class="comment-count">{{post.numberOfComment}} Comments</a><a href="" ng-click="delete()"><span ng-show="showDelete()"> • delete</span></a>
 			</link-info>
 		</div>
 	</article>
