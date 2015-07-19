@@ -1,0 +1,84 @@
+{
+    "rules": {
+      "posts": {
+        "$post_id": {
+          "categories": {
+            "science": {
+            },
+            "technology": {
+            }
+          },
+          "date": {
+          },
+          "lastPoint": {
+          },
+          "link": {
+          },
+          "linkBase": {
+          },
+          "numberOfComment":{
+          },
+          "numberOfPoint":{
+          },
+          "title": {
+          },
+          "user": {
+          },
+          "userId": {
+          }
+        }
+      },
+
+      "comments": {
+        "$post_id": {
+          "$comment_id": {
+            "commentsPoint": {
+              "$uid": {
+                "date": {
+                },
+                "user": {
+                }
+              }
+            },
+            "date": {
+            },
+            "numberOfPoint": {
+            },
+            "text": {
+            },
+            "user": {
+            },
+            "userId": {
+            }
+          }
+
+        }
+      },
+
+      "points": {
+        "$post_id": {
+          "$uid": {
+            "date": {
+            },
+            "user": {
+            }
+          }
+        }
+      },
+
+      "profile": {
+        "$uid": {
+          "email": {
+          },
+          "id": {
+          },
+          "name": {
+          },
+          "nameLow":{
+          }
+        }
+      },
+
+      "$other": { ".validate": false }
+    }
+}

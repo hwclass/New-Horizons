@@ -2,7 +2,7 @@
 	<article>
 		<div class="darkside">
 			<div class="point">
-				<img src="img/up.png" ng-click="puanVer(post.$id)">
+				<img src="img/up.png" ng-click="givePoint(post.$id)">
 				<span>{{post.numberOfPoint}} p</span>
 			</div>
 		</div>
@@ -17,7 +17,7 @@
 	<div class="discussion">
 		<div class="post-comment">
 			<form name="frm">
-				<textarea cols="65" rows="8" wrap="soft" ng-model="comment"></textarea>
+				<textarea rows="8" wrap="soft" ng-model="comment"></textarea>
 				<button class="post-button" ng-disabled="!comment" ng-click="postComment()">Post Comment</button>
 			</form>
 		</div>

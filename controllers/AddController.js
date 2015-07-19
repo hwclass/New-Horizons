@@ -36,7 +36,6 @@ app.controller('AddController',
         }
 
         $scope.NewPost = function(){
-
           if(isUnique("link") && isUnique("title")){
             $scope.posts.$add(
                 {
