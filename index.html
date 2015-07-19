@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app="NewHorizonsApp">
 <head>
-	<title>New Horizons</title>
+	<title ng-bind="$state.current.data.pageTitle"></title>
 	<link rel="stylesheet" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>

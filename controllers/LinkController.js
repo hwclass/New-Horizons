@@ -9,9 +9,8 @@ app.controller('LinkController',
 
         $scope.post = post;
 
-        var currentUser = Auth.user.profile;
-
         $scope.postComment = function(){
+          var currentUser = Auth.user.profile;
             if(currentUser){
                 $scope.comments.$add({
                     "user": currentUser.name,
@@ -49,6 +48,7 @@ app.controller('LinkController',
         };
 
         $scope.showDelete = function(){
+          var currentUser = Auth.user.profile;
           if(currentUser){
             return currentUser.id == post.userId || currentUser.id == "simplelogin:42";
           }else{
@@ -75,6 +75,7 @@ app.controller('LinkController',
         };
 
         $scope.showCommentDelete = function(item){
+          var currentUser = Auth.user.profile;
           if(item == currentUser.name || currentUser.name == "Mert"){
             return true;
           }

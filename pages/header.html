@@ -10,7 +10,7 @@
     <button class="menu" ng-show="signedIn()" ng-init="menuOpen = false" ng-click="menuOpen = !menuOpen"></button>
     <ul class="dropdown-menu" ng-class="menuOpen == true ? 'showMenu' : 'hideMenu'">
       <a ui-sref="change-pass" ng-show="signedIn()" ng-click="menuOpen = false"><li>Profile</li></a>
-      <a href="#" ng-click="logout(user)" ng-show="signedIn()"><li>Sign Out</li></a>
+      <a href="#" ng-click="logout(user);menuOpen = false" ng-show="signedIn()"><li>Sign Out</li></a>
     </ul>
   </div>
 </header>
