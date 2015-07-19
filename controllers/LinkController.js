@@ -57,12 +57,9 @@ app.controller('LinkController',
         }
 
         $scope.delete = function() {
-            post.$destroy();
-            post.$save();
-            comments.$destroy();
-            comments.$save();
-            points.$destroy();
-            points.$save();
+            post.$remove();
+            points.$remove();
+            comments.$remove();
             toaster.pop('success',"Link was deleted successfully!");
             $location.path('/');
         };
