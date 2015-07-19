@@ -1,5 +1,5 @@
 <div class="search">
-    <input value="Search" onclick="this.value='';" ng-model="searchText">
+    <input placeholder="Search" onclick="this.placeholder=''" ng-model="searchText">
 </div>
 <section>
   <div class="filter"><a ng-class="predicate == '-lastPoint' ? 'secili' : ''" ng-click="predicate = '-lastPoint'">Most Popular</a> - <a ng-class="predicate == '-date' ? 'secili' : ''" ng-click="predicate = '-date'">Newest</span></div>
