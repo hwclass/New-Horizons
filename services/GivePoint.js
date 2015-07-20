@@ -18,6 +18,7 @@ app.factory("GivePoint", function(Auth, $location, toaster, FB){
 
                     newPoint.set({
                         "user": currentUser.name,
+                        "userId": currentUser.id,
                         "date": Firebase.ServerValue.TIMESTAMP
                     });
 

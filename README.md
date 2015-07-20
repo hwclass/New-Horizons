@@ -2,7 +2,7 @@
 
 New Horizons is link aggregation application. It is a AngularJS codebase and uses Firebase for the database. You can easily install your server and you can create your own community whatever subject you want.
 
-Note: I am not professional coder. I am still studying on Javascript, AngularJS and Firebase. There may some bugs, error etc. If you find bug, or you have great idea for this application please create an issue. I improve this application every day.
+Note: I am not professional coder. I am still studying on Javascript, AngularJS and Firebase. There may some bugs, error etc. If you find bug please create an issue. If you have a great idea for this application please create pull requests. I improve this application every day.
 
 ###Features
 * Membership system (of course)
@@ -20,6 +20,8 @@ Note: I am not professional coder. I am still studying on Javascript, AngularJS 
 - [ ] Report system
 - [ ] Fastening feature (Admin can fasten some posts)
 - [ ] Message system (Users can send message each other)
+- [ ] Comment reply
+- [ ] Invitation system
 
 ###Why I choose this name?
 
