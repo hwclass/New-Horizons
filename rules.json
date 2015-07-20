@@ -1,54 +1,101 @@
 {
     "rules": {
       "posts": {
+        ".read": true,
+
+        ".write": "true",
+
         "$post_id": {
+
+          ".validate": "(!data.exists() && newData.hasChildren(['categories', 'date', 'lastPoint', 'link', 'linkBase', 'numberOfComment', 'numberOfPoint', 'title', 'user', 'userId']))
+                        || (data.exists() && newData.hasChildren(['lastPoint']))
+                        || (data.exists() && auth != null && (newData.hasChildren(['numberOfComment'])  || newData.hasChildren(['numberOfPoint'])))",
+
           "categories": {
             "science": {
+              ".validate": "newData.val() === true || newData.val() === false"
             },
             "technology": {
+              ".validate": "newData.val() === true || newData.val() === false"
             }
           },
           "date": {
+            ".validate": "newData.val() <= now"
           },
           "lastPoint": {
+            ".validate": "newData.isNumber()"
           },
           "link": {
+            ".validate": "newData.isString() && (newData.val().contains('http://') || newData.val().contains('https://'))"
           },
           "linkBase": {
+            ".validate": "newData.isString()"
           },
           "numberOfComment":{
+            ".validate": "newData.isNumber()"
           },
           "numberOfPoint":{
+            ".validate": "newData.isNumber()"
           },
           "title": {
+            ".validate": "newData.isString() && newData.val().length <= 78"
           },
           "user": {
+            ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid + '/name').exists()"
           },
           "userId": {
+            ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid).exists()"
           }
         }
       },
 
       "comments": {
+        ".read": true,
+
         "$post_id": {
+
+          ".validate": "root.child('posts/'+$post_id).exists()",
+
+          ".write": "auth != null && (!data.exists() || !newData.exists())",
+
           "$comment_id": {
+
+            ".write": "auth != null && (data.exists() || !data.exists() || (!newData.exists() && (data.child('userId').val() === auth.uid  || root.child('posts/' + $post_id + '/userId').val() === auth.uid)))",
+
+            ".validate": "data.exists() && newData.hasChildren(['numberOfPoint'])",
+
             "commentsPoint": {
+
               "$uid": {
+
+                ".validate": "newData.hasChildren(['date', 'user', 'userId'])",
+
                 "date": {
+                  ".validate": "newData.val() <= now"
                 },
                 "user": {
+                  ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid + '/name').exists()"
+                },
+                "userId": {
+                  ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid).exists()"
                 }
               }
             },
+
             "date": {
+              ".validate": "newData.val() <= now"
             },
             "numberOfPoint": {
+              ".validate": "newData.isNumber()"
             },
             "text": {
+              ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length < 1000"
             },
             "user": {
+              ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid + '/name').exists()"
             },
             "userId": {
+              ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid).exists()"
             }
           }
 
@@ -56,26 +103,37 @@
       },
 
       "points": {
+        ".read": true,
+
         "$post_id": {
+
+          ".validate": "root.child('posts/'+$post_id).exists()",
+
+          ".write": "(auth != null && (!data.exists() || !newData.exists()))",
+
           "$uid": {
+
+            ".write": "auth != null && (!data.exists() || (!newData.exists() && root.child('posts/' + $post_id + '/userId').val() === auth.uid))",
+
             "date": {
+              ".validate": "newData.val() <= now"
             },
             "user": {
+              ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid + '/name').exists()"
+            },
+            "userId": {
+              ".validate": "newData.isString() && newData.val().length > 0 && root.child('profile/' + auth.uid).exists()"
             }
           }
         }
       },
 
       "profile": {
+        ".read": true,
+        ".indexOn": "nameLow",
+
         "$uid": {
-          "email": {
-          },
-          "id": {
-          },
-          "name": {
-          },
-          "nameLow":{
-          }
+          ".write": "!data.exists() && auth.uid === $uid"
         }
       },
 
