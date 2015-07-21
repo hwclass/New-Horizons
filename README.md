@@ -1,6 +1,6 @@
 # New Horizons
 
-New Horizons is link aggregation application. It is a AngularJS codebase and uses Firebase for the database. You can easily install your server (or free Firebase Hosting) and you can create your own community whatever subject you want.
+New Horizons is link aggregation (or real-time social news) application. It is a AngularJS codebase and uses Firebase for the database. You can easily install your server (or free Firebase Hosting) and you can create your own community whatever subject you want.
 
 Demo: https://newhorizons.firebaseapp.com/
 
