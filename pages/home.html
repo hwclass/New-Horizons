@@ -2,7 +2,7 @@
     <input placeholder="Search" onclick="this.placeholder=''" ng-model="searchText">
 </div>
 <section>
-  <div class="filter"><a ng-class="predicate == '-lastPoint' ? 'secili' : ''" ng-click="predicate = '-lastPoint'">Most Popular</a> - <a ng-class="predicate == '-date' ? 'secili' : ''" ng-click="predicate = '-date'">Newest</span></div>
+  <div class="filter"><a ng-class="predicate == '-lastPoint' ? 'selected' : ''" ng-click="predicate = '-lastPoint'">Most Popular</a> - <a ng-class="predicate == '-date' ? 'selected' : ''" ng-click="predicate = '-date'">Newest</span></div>
   <article ng-repeat="post in posts | orderBy:predicate | filter: searchText | limitTo: pageSize : currentPage*pageSize | filter: searchText ">
     <div class="darkside">
       <div class="point">

@@ -1,5 +1,5 @@
 app.factory("FB", function($firebaseArray, $firebaseObject, $firebaseAuth){
-  var ref = new Firebase('https://kesfet-io.firebaseio.com');
+  var ref = new Firebase('https://newhorizons.firebaseio.com');
 
   var FB = {
     posts: function(){

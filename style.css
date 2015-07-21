@@ -187,7 +187,7 @@ header{
 	text-decoration: underline;
 }
 
-.filter .secili{
+.filter .selected{
 	text-decoration: none;
 }
 
@@ -297,6 +297,11 @@ footer{
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 3px;
+}
+
+footer a {
+  color: #D5CECE;
+  text-decoration: underline;
 }
 
 .section-detail{
