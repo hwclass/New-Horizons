@@ -44,30 +44,34 @@ G = 1.8
 
 ###Installation
 
-- Register Firebase.com and create an app. Then change link in [FB.js](/services/FB.js) with your app link :
+1. Register Firebase.com and create an app. Then change link in [FB.js](/services/FB.js) with your app link :
 
-`var ref = new Firebase('https://yourappname.firebaseio.com');`
+    `var ref = new Firebase('https://yourappname.firebaseio.com');`
 
-- Install [Node.js](https://nodejs.org/download/).
+2. Install [Node.js](https://nodejs.org/download/).
 
-- Type for install firebase-tools:
+3. Type for install firebase-tools:
 
-`$ sudo npm install -g firebase-tools`
+    `$ sudo npm install -g firebase-tools`
 
-- Go to your website directory with:
+4. Go to your website directory with:
 
-`$ cd`
+    `$ cd`
 
-- Run your app:
+5. Run your app:
 
-`$ firebase init`
+    `$ firebase init`
 
-- Enter your Firebase email and password. Then enter your app name.
+6. Enter your Firebase email and password. Then enter your app name.
 
-- Deploy your app:
+7. Deploy your app:
 
-`$ firebase deploy`
+    `$ firebase deploy`
 
-- Go to Login & Auth page on Firebase Dashboard. Then click the box near of Enable Email & Password Authentication.
+8. Go to Login & Auth page on Firebase Dashboard. Then click the box near of Enable Email & Password Authentication.
 
-- Copy everything inside of [rules.json](/rules.json) file to Security & Rules page. That's all.
+9. Copy everything inside of [rules.json](/rules.json) file to Security & Rules page. That's all.
+
+###License
+
+The MIT License (MIT)

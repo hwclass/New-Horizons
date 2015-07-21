@@ -74,6 +74,7 @@ app.controller('LinkController',
           var currentPost = FB.postOb(item);
           currentPost.$loaded().then(function(item){
             item.numberOfComment--;
+            item.$save();
           });
         };
 
