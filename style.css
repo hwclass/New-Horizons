@@ -224,9 +224,8 @@ article{
 }
 
 .lightside {
-  float:left;
-  margin-left:10px;
-  margin-top:0px;
+  margin-left:50px;
+  padding-top:3px;
 }
 
 .url-base{
@@ -483,4 +482,24 @@ input:focus{
 }
 .hideMenu{
   display:none;
+}
+
+@media screen and (max-width: 830px){
+  article{
+    margin-bottom: 35px;
+  }
+  .lightside{
+    padding-top: 1px;
+  }
+  .point{
+    height:95px;
+  }
+
+  .point span{
+    padding-top: 15px;
+  }
+  .point img{
+    margin-bottom: 5px;
+    margin-top:15px;
+  }
 }
