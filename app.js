@@ -1,7 +1,7 @@
 var app = angular.module('NewHorizonsApp', ["firebase","ui.router", "angularMoment", "toaster", "ngAnimate"]);
 
 app.run(function(amMoment) {
-    amMoment.changeLocale('tr');
+    amMoment.changeLocale('en');
 });
 
 app.config(function($stateProvider, $urlRouterProvider){

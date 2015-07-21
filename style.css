@@ -389,6 +389,10 @@ min-height: 55px;
   color: #E3472F;
 }
 
+.comment-info{
+  padding-top: 2px;
+}
+
 .comment-info .time{
   color: #727272;
   font-size: 0.853em;

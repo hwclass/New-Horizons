@@ -42,7 +42,7 @@ G = 1.8
 
 ###Installation
 
-Register Firebase.com and create an app. Then change link in FB.js with your app link :
+Register Firebase.com and create an app. Then change link in [FB.js](/blob/master/services/FB.js) with your app link :
 
 `var ref = new Firebase('https://yourappname.firebaseio.com');`
 
@@ -66,8 +66,4 @@ Deploy your app:
 
 `$ firebase deploy`
 
-Go to Login & Auth page on Firebase Dashboard. Then click the box near of Enable Email & Password Authentication. After that copy everything inside of rules.json file to Security & Rules page. That's all.
-
-###Firebase Rules
-
-Check `rules.json` file.
+Go to Login & Auth page on Firebase Dashboard. Then click the box near of Enable Email & Password Authentication. After that copy everything inside of [rules.json](/blob/master/rules.json) file to Security & Rules page. That's all.gi

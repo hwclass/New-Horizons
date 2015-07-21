@@ -7,7 +7,7 @@ app.factory("GivePoint", function(Auth, $location, toaster, FB){
             var postPoint;
 
             if(commentId){
-              postPoint = FB.commentsPoints(postId, commentId);
+              postPoint = FB.commentPoints(postId, commentId);
             }else{
               postPoint = FB.point(postId);
             }

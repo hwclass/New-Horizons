@@ -6,6 +6,7 @@ app.controller('LinkController',
         $scope.comments = FB.commentsAr(postId);
         var points = FB.pointOb(postId);
         var comments = FB.commentsOb(postId);
+        var commentPoints = FB.commentPointsOb(postId);
 
         $scope.post = post;
 
@@ -34,8 +35,9 @@ app.controller('LinkController',
         $scope.commentGivePoint = function(item, item2){
             if(GivePoint.givePoint(item, item2)){
                 var currentComment = FB.commentOb(item, item2);
-                currentComment.$bindTo($scope, "data").then(function() {
-                  $scope.data.numberOfPoint++;
+                currentComment.$loaded().then(function(item){
+                  item.numberOfPoint++;
+                  item.$save();
                 });
             }
         };
@@ -50,7 +52,7 @@ app.controller('LinkController',
         $scope.showDelete = function(){
           var currentUser = Auth.user.profile;
           if(currentUser){
-            return currentUser.id == post.userId || currentUser.id == "simplelogin:42";
+            return currentUser.id == post.userId || currentUser.id == "simplelogin:1";
           }else{
             return false;
           }
@@ -59,6 +61,7 @@ app.controller('LinkController',
         $scope.delete = function() {
             points.$remove();
             comments.$remove();
+            commentPoints.$remove();
             post.$remove();
             toaster.pop('success',"Link was deleted successfully!");
             $location.path('/');
@@ -69,14 +72,14 @@ app.controller('LinkController',
           currentComment.$destroy();
           currentComment.$save();
           var currentPost = FB.postOb(item);
-          currentPost.$bindTo($scope, "data").then(function() {
-            $scope.data.numberOfComment--;
+          currentPost.$loaded().then(function(item){
+            item.numberOfComment--;
           });
         };
 
         $scope.showCommentDelete = function(item){
           var currentUser = Auth.user.profile;
-          if(item == currentUser.name || currentUser.name == "Mert"){
+          if(item == currentUser.name || currentUser.id == "simplelogin:1"){
             return true;
           }
         }

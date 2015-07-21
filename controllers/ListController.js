@@ -17,8 +17,9 @@ app.controller('ListController',
         $scope.givePoint = function(item){
             if(GivePoint.givePoint(item)){
               var currentPost = FB.postOb(item);
-              currentPost.$bindTo($scope, "data").then(function() {
-                $scope.data.numberOfPoint++;
+              currentPost.$loaded().then(function(item){
+                item.numberOfPoint++;
+                item.$save();
               });
             }
         };

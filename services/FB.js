@@ -29,8 +29,11 @@ app.factory("FB", function($firebaseArray, $firebaseObject, $firebaseAuth){
     commentOb: function(item, item2){
       return $firebaseObject(ref.child("comments").child(item).child(item2));
     },
-    commentsPoints: function(item, item2){
-      return ref.child("comments").child(item).child(item2).child("commentsPoints");
+    commentPoints: function(item, item2){
+      return ref.child("commentPoints").child(item).child(item2);
+    },
+    commentPointsOb: function(item){
+      return $firebaseObject(ref.child("commentPoints").child(item));
     },
     profile: function(){
       return ref.child("profile");
