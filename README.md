@@ -1,6 +1,6 @@
 # New Horizons
 
-New Horizons is link aggregation application. It is a AngularJS codebase and uses Firebase for the database. You can easily install your server and you can create your own community whatever subject you want.
+New Horizons is link aggregation application. It is a AngularJS codebase and uses Firebase for the database. You can easily install your server (or free Firebase Hosting) and you can create your own community whatever subject you want.
 
 Note: I am not professional coder. I am still studying on Javascript, AngularJS and Firebase. There may some bugs, error etc. If you find bug please create an issue. If you have a great idea for this application please create pull requests. I improve this application every day.
 
@@ -41,6 +41,32 @@ T = now - post.date
 G = 1.8
 
 ###Installation
+
+Register Firebase.com and create an app. Then change link in FB.js with your app link :
+
+`var ref = new Firebase('https://yourappname.firebaseio.com');`
+
+Install [Node.js](https://nodejs.org/download/).
+
+Type:
+
+`$ sudo npm install -g firebase-tools`
+
+Go to your website directory with:
+
+`$ cd`
+
+Run your app:
+
+`$ firebase init`
+
+Enter your Firebase email and password. Then enter your app name.
+
+Deploy your app:
+
+`$ firebase deploy`
+
+Go to Login & Auth page on Firebase Dashboard. Then click the box near of Enable Email & Password Authentication. After that copy everything inside of rules.json file to Security & Rules page. That's all.
 
 ###Firebase Rules
 
