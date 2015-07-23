@@ -80,7 +80,9 @@ app.controller('LinkController',
 
         $scope.showCommentDelete = function(item){
           var currentUser = Auth.user.profile;
-          if(item == currentUser.name || currentUser.id == "simplelogin:1"){
+          if(currentUser === undefined){
+            return false;
+          }else if(item == currentUser.name || currentUser.id == "simplelogin:1"){
             return true;
           }
         }
